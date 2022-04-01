@@ -1,0 +1,18 @@
+.root {
+  border-bottom: solid 1px #f0f0f0;
+  box-shadow: 0 0 0px #f0f0f0;
+  background-color: white !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/*
+.logo {
+  background: rgba(0, 0, 0, 0.1);
+} */
+
+/* @media (max-width: 767px) {
+  .mainMenu {
+    display: none !important;
+  }
+} */

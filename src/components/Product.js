@@ -3,7 +3,7 @@ import axios from "axios";
 import { Table, Button, Typography } from "antd";
 const { Title } = Typography;
 
-export default function Main() {
+export default function Product() {
   const columns = [
     // {
     //   title: "Image",

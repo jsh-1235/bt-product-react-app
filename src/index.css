@@ -1,0 +1,11 @@
+@import "~react-image-gallery/styles/css/image-gallery.css";
+
+@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  font-family: 'Fjalla One', sans-serif;
+  font-family: 'Rajdhani', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

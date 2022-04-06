@@ -39,3 +39,8 @@
 ## Proxy
 
 - "proxy": "https://bt-product-server.herokuapp.com"
+
+## Netlify
+
+- Build & deploy (Continuous Deployment)
+  - CI=false npm run build

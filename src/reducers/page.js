@@ -1,13 +1,11 @@
-import { PAGE_ROUTER } from "../actions/types";
+import { PAGE_LOCATION } from "../actions/types";
 
 export default function Routers(state = {}, action) {
   switch (action.type) {
-    case PAGE_ROUTER: {
-      // console.log("PAGE_ROUTER", action.payload);
-
+    case PAGE_LOCATION: {
       return {
         ...state,
-        location: action.payload,
+        payload: action.payload,
       };
     }
     default:

@@ -3,11 +3,15 @@ import { useState, useEffect } from "react";
 export function useSearchKey(props) {
   const [key, setKey] = useState("");
 
-  useEffect(() => {
-    if (props.routers.location) {
-      const results = props.routers.location.pathname.split("/").splice(1, 2);
+  // console.log("useSearchKey", props);
 
-      const compare = ["", "home", "product", "cart", "history", "login", "register"];
+  useEffect(() => {
+    console.log("useSearchKey", props.page.payload);
+
+    if (props?.page?.payload) {
+      const results = props.page.payload.pathname.split("/").splice(1, 2);
+
+      const compare = ["", "home", "user", "product", "register", "login"];
 
       const result = results.filter((target) => {
         const elements = compare.map((item) => {
@@ -18,10 +22,8 @@ export function useSearchKey(props) {
       });
 
       setKey(result);
-
-      // console.log(result);
     }
-  }, [props.routers]);
+  }, [props?.page?.payload]);
 
   return [key, setKey];
 }

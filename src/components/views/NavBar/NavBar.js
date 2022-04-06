@@ -15,7 +15,7 @@ import { Row, Col, Layout } from "antd";
 const { Header } = Layout;
 
 function NavBar() {
-  let routers = useSelector((state) => state.routers);
+  let page = useSelector((state) => state.page);
 
   const [visible, setVisible] = useState(false);
   const [matches, setMatches] = useState(window.matchMedia("(min-width: 768px)").matches);
@@ -32,7 +32,7 @@ function NavBar() {
     setVisible(false);
   };
 
-  const menu = <MainMenu theme="light" mode={matches ? "horizontal" : "inline"} routers={routers} />;
+  const menu = <MainMenu theme="light" mode={matches ? "horizontal" : "inline"} page={page} />;
 
   return (
     <Header className={`${styles.root}`}>

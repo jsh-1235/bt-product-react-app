@@ -30,17 +30,17 @@ export default function Product() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    console.log("componentDidMount");
+    // console.log("componentDidMount");
 
-    console.log(process.env.REACT_APP_PROXY);
+    // console.log(process.env.REACT_APP_PROXY);
 
     axios
       .get(`${process.env.REACT_APP_PROXY}/product`)
       .then((response) => {
         setProducts([]);
 
-        console.log(response.data.products);
-        console.log(typeof response.data.products, Array.isArray(response.data.products));
+        // console.log(response.data.products);
+        // console.log(typeof response.data.products, Array.isArray(response.data.products));
 
         // setProducts([...products, ...response.data.products]);
 
@@ -62,7 +62,7 @@ export default function Product() {
       .catch((err) => console.log(err.message));
 
     return function cleanup() {
-      console.log("cleanup");
+      // console.log("cleanup");
     };
   }, []);
 

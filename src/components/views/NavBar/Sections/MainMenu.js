@@ -1,41 +1,40 @@
 import React from "react";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useSearchKey } from "./hooks";
 
-import axios from "axios";
-
 import { Menu, message } from "antd";
-import { LogoutOutlined } from "@ant-design/icons";
+import Icon, { LogoutOutlined } from "@ant-design/icons";
 
-import { USER_SERVER } from "../../../Config";
+import { logoutUser } from "../../../../actions/user";
 
 function MainMenu(props) {
-  const [key, setKey] = useSearchKey(props);
-
-  // console.log("props", props);
-
-  const onSelectHandler = (item, key, keyPath) => {
-    console.log(item, key, keyPath);
-    setKey(key);
-  };
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user);
 
-  const navigate = useNavigate();
-
-  // console.log(user.userData);
+  // console.log("MainMenu", user);
 
   const handleLogout = () => {
-    axios.get(`${USER_SERVER}/logout`).then((response) => {
-      if (response.status === 200) {
-        navigate("/login");
-      } else {
-        message.warning("Logout failed.");
-      }
-    });
+    dispatch(logoutUser())
+      .then((response) => {
+        if (response.payload.success) {
+          navigate("/login");
+        } else {
+          message.warning(response.payload.err);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const [key, setKey] = useSearchKey(props);
+
+  const onSelectHandler = (item, key, keyPath) => {
+    // console.log(item, key, keyPath);
+    setKey(key);
   };
 
   return (
@@ -43,14 +42,11 @@ function MainMenu(props) {
       <Menu.Item key="" onClick={onSelectHandler}>
         <Link to="/">Home</Link>
       </Menu.Item>
+      <Menu.Item key="user" onClick={onSelectHandler}>
+        <Link to="/user">User</Link>
+      </Menu.Item>
       <Menu.Item key="product" onClick={onSelectHandler}>
         <Link to="/product">Product</Link>
-      </Menu.Item>
-      <Menu.Item key="cart" onClick={onSelectHandler}>
-        <Link to="/user/cart">Cart</Link>
-      </Menu.Item>
-      <Menu.Item key="history" onClick={onSelectHandler}>
-        <Link to="/history">History</Link>
       </Menu.Item>
       {!user.userData?.isAuth ? (
         <>
@@ -61,9 +57,21 @@ function MainMenu(props) {
             <Link to="/register">Sign up</Link>
           </Menu.Item>
         </>
+      ) : props.mode === "horizontal" ? (
+        <Menu.Item key="logout" style={{ flexGrow: "1", marginRight: "1rem" }}>
+          <div style={{ textAlign: "end" }}>
+            <Icon component={LogoutOutlined} />
+            <span onClick={handleLogout}>Logout</span>
+            <span style={{ marginLeft: "0.5rem", color: "#1890ff", fontStyle: "italic" }}>{user.userData.email}</span>
+          </div>
+        </Menu.Item>
       ) : (
-        <Menu.Item key="logout" icon={<LogoutOutlined />}>
-          <span onClick={handleLogout}>Logout</span>
+        <Menu.Item key="logout">
+          <div>
+            <Icon component={LogoutOutlined} />
+            <span onClick={handleLogout}>Logout</span>
+            <span style={{ marginLeft: "0.5rem", color: "#1890ff", fontStyle: "italic" }}>{user.userData.email}</span>
+          </div>
         </Menu.Item>
       )}
     </Menu>

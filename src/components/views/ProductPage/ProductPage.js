@@ -25,7 +25,7 @@ const scroll = { x: "fixed" };
 export default function ProductPage(props) {
   const dispatch = useDispatch();
 
-  const [products, loading] = useReadProduct(props);
+  const [products, setProducts, loading] = useReadProduct(props);
 
   //===================================================================================
   const handleUpdate = () => {
@@ -43,9 +43,9 @@ export default function ProductPage(props) {
     dispatch(deleteProduct(dataToSubmit))
       .then((response) => {
         if (response.payload.success) {
-          // setUsers(products.filter((product) => product.id !== id));
+          setProducts(products.filter((product) => product.id !== id));
 
-          window.location.reload(false);
+          // window.location.reload(false);
         } else {
           message.error(response.payload.err, 3);
         }

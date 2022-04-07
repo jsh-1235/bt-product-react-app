@@ -48,5 +48,5 @@ export function useReadProduct(props) {
     return function cleanup() {};
   }, [dispatch]);
 
-  return [products, loading];
+  return [products, setProducts, loading];
 }

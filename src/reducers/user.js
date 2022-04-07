@@ -15,7 +15,6 @@ export default function User(state = {}, action) {
     case USER_LOGOUT:
       return { ...state };
     case USER_GET:
-      console.log(state);
       return { ...state, payload: action.payload };
     default:
       return state;

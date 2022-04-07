@@ -32,7 +32,13 @@ function NavBar() {
     setVisible(false);
   };
 
-  const menu = <MainMenu theme="light" mode={matches ? "horizontal" : "inline"} page={page} />;
+  const handleSelectMenu = (item, key, keyPath) => {
+    // console.log(item, key, keyPath);
+
+    setVisible(false);
+  };
+
+  const menu = <MainMenu theme="light" mode={matches ? "horizontal" : "inline"} page={page} handleSelectMenu={handleSelectMenu} />;
 
   return (
     <Header className={`${styles.root}`}>

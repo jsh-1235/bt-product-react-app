@@ -16,8 +16,6 @@ function MainMenu(props) {
 
   const user = useSelector((state) => state.user);
 
-  // console.log("MainMenu", user);
-
   const handleLogout = () => {
     dispatch(logoutUser())
       .then((response) => {
@@ -32,28 +30,31 @@ function MainMenu(props) {
 
   const [key, setKey] = useSearchKey(props);
 
-  const onSelectHandler = (item, key, keyPath) => {
-    // console.log(item, key, keyPath);
+  const handleSelectMenu = (item, key, keyPath) => {
     setKey(key);
+
+    props.handleSelectMenu(item, key, keyPath);
   };
 
   return (
     <Menu theme={props.theme} mode={props.mode} selectedKeys={key}>
-      <Menu.Item key="" onClick={onSelectHandler}>
+      <Menu.Item key="" onClick={handleSelectMenu}>
         <Link to="/">Home</Link>
       </Menu.Item>
-      <Menu.Item key="user" onClick={onSelectHandler}>
-        <Link to="/user">User</Link>
-      </Menu.Item>
-      <Menu.Item key="product" onClick={onSelectHandler}>
+      {user.userData?.isAdmin && (
+        <Menu.Item key="user" onClick={handleSelectMenu}>
+          <Link to="/user">User</Link>
+        </Menu.Item>
+      )}
+      <Menu.Item key="product" onClick={handleSelectMenu}>
         <Link to="/product">Product</Link>
       </Menu.Item>
       {!user.userData?.isAuth ? (
         <>
-          <Menu.Item key="login" onClick={onSelectHandler}>
+          <Menu.Item key="login" onClick={handleSelectMenu}>
             <Link to="/login">Sign in</Link>
           </Menu.Item>
-          <Menu.Item key="register" onClick={onSelectHandler}>
+          <Menu.Item key="register" onClick={handleSelectMenu}>
             <Link to="/register">Sign up</Link>
           </Menu.Item>
         </>

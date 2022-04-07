@@ -3,11 +3,7 @@ import { useState, useEffect } from "react";
 export function useSearchKey(props) {
   const [key, setKey] = useState("");
 
-  // console.log("useSearchKey", props);
-
   useEffect(() => {
-    console.log("useSearchKey", props.page.payload);
-
     if (props?.page?.payload) {
       const results = props.page.payload.pathname.split("/").splice(1, 2);
 

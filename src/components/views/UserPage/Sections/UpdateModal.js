@@ -52,6 +52,7 @@ export default function UpdateModal(props) {
 
   const handleCancel = () => {
     console.log("The job has been canceled.");
+
     setVisible(false);
   };
 

@@ -72,7 +72,7 @@ export default function Product() {
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
-  const onSelectChange = (selectedRowKeys) => {
+  const handleSelectChange = (selectedRowKeys) => {
     console.log("Selected row keys changed", selectedRowKeys);
 
     setSelectedRowKeys(selectedRowKeys);
@@ -80,7 +80,7 @@ export default function Product() {
 
   const rowSelection = {
     selectedRowKeys,
-    onChange: onSelectChange,
+    onChange: handleSelectChange,
   };
 
   const hasSelected = selectedRowKeys.length > 0;

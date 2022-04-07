@@ -9,17 +9,27 @@ import { deleteUser, getUser } from "../../../actions/user";
 
 const { Title } = Typography;
 
+const expandable = { expandedRowRender: (record) => <p>{record.email}</p> };
+const title = () => "User List";
+const showHeader = true;
+const footer = () => "BT Inc";
+const pagination = { position: "bottom" };
+
 export default function UserPage(props) {
   const dispatch = useDispatch();
 
   const [users, setUsers] = useState([]);
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
+    setLoading(true);
+
     dispatch(getUser())
       .then((response) => {
         setUsers([]);
 
-        console.log(response.payload);
+        // console.log(response.payload);
 
         if (response.payload.success) {
           response.payload.users.forEach((user, index) => {
@@ -40,8 +50,10 @@ export default function UserPage(props) {
       })
       .catch((err) => console.log(err));
 
+    setLoading(false);
+
     return function cleanup() {
-      console.log("cleanup");
+      // console.log("cleanup");
     };
   }, []);
 
@@ -63,7 +75,7 @@ export default function UserPage(props) {
 
           window.location.reload(false);
 
-          console.log(response);
+          // console.log(response);
         }
       })
       .catch((err) => console.log(err.message));
@@ -73,7 +85,7 @@ export default function UserPage(props) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const hasSelected = selectedRowKeys.length > 0;
 
-  const onSelectChange = (selectedRowKeys) => {
+  const handleSelectChange = (selectedRowKeys) => {
     console.log("Selected row keys changed", selectedRowKeys);
 
     setSelectedRowKeys(selectedRowKeys);
@@ -81,7 +93,7 @@ export default function UserPage(props) {
 
   const rowSelection = {
     selectedRowKeys,
-    onChange: onSelectChange,
+    onChange: handleSelectChange,
   };
 
   const handleClear = () => {
@@ -106,6 +118,14 @@ export default function UserPage(props) {
     {
       title: "Email",
       dataIndex: "email",
+      sorter: (a, b) => a.email > b.email,
+      filters: [
+        {
+          text: "Email",
+          value: "jsh@naver.com",
+        },
+      ],
+      onFilter: (value, record) => record.email.indexOf(value) === 0,
     },
     {
       title: "Password",
@@ -124,6 +144,10 @@ export default function UserPage(props) {
     },
   ];
 
+  // const scroll = { x: undefined };
+  const scroll = { x: "fixed" };
+  // const scroll = { x: "100vw" };
+
   return (
     <div style={{ width: "100%", margin: "1rem auto" }}>
       <div style={{ textAlign: "center", marginBottom: "0rem" }}>
@@ -137,7 +161,7 @@ export default function UserPage(props) {
           </Button>
         </div>
       )}
-      <Table rowSelection={rowSelection} columns={columns} dataSource={users} />
+      <Table rowSelection={rowSelection} columns={columns} dataSource={users} loading={loading} bordered={false} size="small" expandable={expandable} title={title} pagination={{ position: ["none", "bottomCenter"] }} showHeader={showHeader} footer={footer} scroll={scroll} />
     </div>
   );
 }

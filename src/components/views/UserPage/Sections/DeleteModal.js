@@ -24,6 +24,7 @@ export default function DeleteModal(props) {
 
   const handleCancel = () => {
     console.log("The job has been canceled.");
+
     setVisible(false);
   };
 

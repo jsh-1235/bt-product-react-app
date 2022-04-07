@@ -20,9 +20,9 @@ export default function Auth(SpecificComponent, option, adminRoute = null) {
 
     useEffect(() => {
       dispatch(auth()).then((response) => {
-        console.group("Auth");
-        console.info(response);
-        console.groupEnd();
+        // console.group("Auth");
+        // console.info(response);
+        // console.groupEnd();
 
         if (!response.payload.isAuth) {
           if (option) {
@@ -30,10 +30,13 @@ export default function Auth(SpecificComponent, option, adminRoute = null) {
           }
         } else {
           if (adminRoute && !response.payload.isAdmin) {
+            console.log("This page is only accessible by administrators.");
+
             navigate("/");
           } else {
             if (option === false) {
               navigate("/");
+            } else {
             }
           }
         }

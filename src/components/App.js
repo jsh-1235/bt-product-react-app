@@ -29,7 +29,7 @@ function App() {
             <Route path="/" element={Auth(LandingPage, null)} />
             <Route path="/login" element={Auth(LoginPage, false)} />
             <Route path="/register" element={Auth(RegisterPage, false)} />
-            <Route path="/user" element={Auth(UserPage, null)} />
+            <Route path="/user" element={Auth(UserPage, true, true)} />
             <Route path="/product" element={Auth(Product, true)} />
             <Route path="/*" element={Auth(NotFound, null)} />
           </Routes>

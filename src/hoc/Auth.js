@@ -17,6 +17,7 @@ export default function Auth(SpecificComponent, option, adminRoute = null) {
     const navigate = useNavigate();
 
     let user = useSelector((state) => state.user);
+    let product = useSelector((state) => state.product);
 
     useEffect(() => {
       dispatch(auth()).then((response) => {
@@ -45,7 +46,7 @@ export default function Auth(SpecificComponent, option, adminRoute = null) {
       dispatch(Location(window.location.href, window.location.pathname));
     }, [dispatch, navigate]);
 
-    return <SpecificComponent {...props} user={user} />;
+    return <SpecificComponent {...props} user={user} product={product} />;
   }
 
   return <Check />;

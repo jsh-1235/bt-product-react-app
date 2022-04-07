@@ -1,16 +1,15 @@
 import React from "react";
 
-import { useNavigate } from "react-router-dom";
 import moment from "moment";
 
 import { Formik } from "formik";
 import * as Yup from "yup";
 
-import { Modal, Button, Form, Input, Space, message } from "antd";
-import { EditFilled } from "@ant-design/icons";
-
 import { updateUser } from "../../../../actions/user";
 import { useDispatch } from "react-redux";
+
+import { Modal, Button, Form, Input, Space, message } from "antd";
+import { EditFilled } from "@ant-design/icons";
 
 const formItemLayout = {
   labelCol: {
@@ -39,8 +38,6 @@ const tailFormItemLayout = {
 export default function UpdateModal(props) {
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
-
-  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -98,6 +95,7 @@ export default function UpdateModal(props) {
               setConfirmLoading(false);
 
               let dataToSubmit = {
+                _id: user._id,
                 firstName: values.firstName,
                 lastName: values.lastName,
                 email: values.email,

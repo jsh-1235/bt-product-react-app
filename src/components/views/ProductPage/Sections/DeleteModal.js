@@ -5,7 +5,7 @@ import { DeleteFilled } from "@ant-design/icons";
 export default function DeleteModal(props) {
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
-  const [modalText, setModalText] = React.useState("Are you sure you want to delete the registered user?");
+  const [modalText, setModalText] = React.useState("Are you sure you want to delete the registered product?");
 
   const showModal = () => {
     setVisible(true);

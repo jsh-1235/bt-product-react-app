@@ -13,7 +13,7 @@ import LoginPage from "./views/LoginPage/LoginPage";
 import RegisterPage from "./views/RegisterPage/RegisterPage";
 
 import UserPage from "./views/UserPage/UserPage";
-import Product from "./Product";
+import ProductPage from "./views/ProductPage/ProductPage";
 
 const { Content, Footer } = Layout;
 
@@ -30,7 +30,7 @@ function App() {
             <Route path="/login" element={Auth(LoginPage, false)} />
             <Route path="/register" element={Auth(RegisterPage, false)} />
             <Route path="/user" element={Auth(UserPage, true, true)} />
-            <Route path="/product" element={Auth(Product, true)} />
+            <Route path="/product" element={Auth(ProductPage, true)} />
             <Route path="/*" element={Auth(NotFound, null)} />
           </Routes>
         </Suspense>

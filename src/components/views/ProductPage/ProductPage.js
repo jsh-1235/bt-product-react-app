@@ -1,30 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useReadUser } from "./Sections/hooks";
-import { deleteUser } from "../../../actions/user";
+import { useReadProduct } from "./Sections/hooks";
+import { deleteProduct } from "../../../actions/product";
 
-import { Table, Button, Typography, Space, notification, Popover, Checkbox } from "antd";
+import { Table, Button, Typography, Space, Popover, Checkbox, message } from "antd";
 import { green } from "@ant-design/colors";
 
+import CreateModal from "./Sections/CreateModal";
 import UpdateModal from "./Sections/UpdateModal";
 import DeleteModal from "./Sections/DeleteModal";
 
 const { Title } = Typography;
 
-const expandableContainer = { expandedRowRender: (record) => <p>{record.password}</p> };
+const expandableContainer = { expandedRowRender: (record) => <p>{record.description}</p> };
 const title = () => "User List";
 const showHeader = true;
 // const footer = () => "BT Inc";
-const pagination = { position: ["none", "bottomCenter"] };
+const pagination = { position: ["none", "bottomRight"] };
 
 // const scroll = { x: undefined };
 const scroll = { x: "fixed" };
 // const scroll = { x: "100vw" };
 
-export default function UserPage(props) {
+export default function ProductPage(props) {
   const dispatch = useDispatch();
 
-  const [users, loading] = useReadUser(props);
+  const [products, loading] = useReadProduct(props);
 
   //===================================================================================
   const handleUpdate = () => {
@@ -39,12 +40,14 @@ export default function UserPage(props) {
       _id: id,
     };
 
-    dispatch(deleteUser(dataToSubmit))
+    dispatch(deleteProduct(dataToSubmit))
       .then((response) => {
         if (response.payload.success) {
-          // setUsers(users.filter((user) => user.id !== id));
+          // setUsers(products.filter((product) => product.id !== id));
 
           window.location.reload(false);
+        } else {
+          message.error(response.payload.err, 3);
         }
       })
       .catch((err) => console.log(err.message));
@@ -66,12 +69,12 @@ export default function UserPage(props) {
 
   const handleClear = () => {
     selectedRowKeys?.forEach((key) => {
-      console.log(users[key], users[key].id);
+      console.log(products[key], products[key].id);
 
-      handleRemove(users[key].id);
+      handleRemove(products[key].id);
+
+      setSelectedRowKeys([]);
     });
-
-    setSelectedRowKeys([]);
   };
 
   //===================================================================================
@@ -109,62 +112,48 @@ export default function UserPage(props) {
   );
 
   const columns = [
+    // {
+    //   title: "Image",
+    //   dataIndex: "image",
+    //   render: (product) => <img style={{ width: "60px" }} title={product.title} alt="product" src={product.image} />,
+    // },
     {
-      title: "First Name",
-      dataIndex: "firstName",
+      title: "Title",
+      dataIndex: "title",
       ellipsis: true,
-    },
-    {
-      title: "Last Name",
-      dataIndex: "lastName",
-      ellipsis: true,
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      ellipsis: false,
-      sorter: (a, b) => a.email > b.email,
+      sorter: (a, b) => a.title > b.title,
       filters: [
         {
-          text: "Admin",
-          value: "jsh@naver.com",
+          text: "BT-CEAB2",
+          value: "BT-CEAB2",
         },
       ],
-      onFilter: (value, record) => record.email.indexOf(value) === 0,
+      onFilter: (value, record) => record.title.indexOf(value) === 0,
     },
-    // {
-    //   title: "Password",
-    //   dataIndex: "password",
-    // },
+    {
+      title: "Description",
+      dataIndex: "description",
+      ellipsis: true,
+    },
     {
       title: "Action",
       dataIndex: "action",
       ellipsis: true,
       fixed: "right",
-      render: (user) => (
+      width: 100,
+      render: (product) => (
         <Space>
-          <UpdateModal user={user} handleUpdate={handleUpdate} />
-          <DeleteModal id={user._id} handleRemove={handleRemove} />
+          <UpdateModal product={product} handleUpdate={handleUpdate} />
+          <DeleteModal id={product._id} handleRemove={handleRemove} />
         </Space>
       ),
     },
   ];
 
-  const openNotificationWithIcon = (type) => {
-    console.log(type);
-
-    notification[type]({
-      message: "Users",
-      description: "User information management page",
-    });
-  };
-
   return (
     <div style={{ width: "100%", margin: "1rem auto" }}>
       <div style={{ textAlign: "center", marginBottom: "0rem" }}>
-        <Title level={2} onClick={openNotificationWithIcon.bind(this, "success")}>
-          Users
-        </Title>
+        <Title level={2}>BT Products</Title>
       </div>
       <div style={{ display: "flex", flexDirection: "row", justifyContent: selectedRowKeys.length !== 0 ? "space-between" : "flex-end", alignItems: "center", marginBottom: "0.25rem" }}>
         {hasSelected && rowSelection && (
@@ -175,13 +164,17 @@ export default function UserPage(props) {
             <span style={{ margin: "0.25rem" }}>{hasSelected ? `Selected ${selectedRowKeys.length} items` : ""}</span>
           </Space>
         )}
-        <Popover content={content} title="Option">
-          <Button type="primary" style={{ backgroundColor: green[6], borderColor: green[6] }}>
-            Option
-          </Button>
-        </Popover>
+        <Space>
+          {/* <Button type="primary">Create</Button> */}
+          <CreateModal handleRemove={handleUpdate} />
+          <Popover content={content} title="Option">
+            <Button type="primary" style={{ backgroundColor: green[6], borderColor: green[6] }}>
+              Option
+            </Button>
+          </Popover>
+        </Space>
       </div>
-      <Table bordered={false} size="small" loading={loading} columns={columns} dataSource={users} rowSelection={rowSelection ? handleRowSelection : null} expandable={expandable} title={title} pagination={pagination} showHeader={showHeader} footer={() => `Number of registered users ${users.length}`} scroll={scroll} />
+      <Table bordered={false} size="small" loading={loading} columns={columns} dataSource={products} rowSelection={rowSelection ? handleRowSelection : null} expandable={expandable} title={title} pagination={pagination} showHeader={showHeader} footer={() => `Number of registered products ${products.length}`} scroll={scroll} />
     </div>
   );
 }

@@ -13,6 +13,7 @@ import ReduxThunk from "redux-thunk";
 import Reducer from "./reducers";
 
 import "antd/dist/antd.css";
+// import "antd/dist/antd.less";
 
 const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore);
 
